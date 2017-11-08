@@ -1,3 +1,5 @@
+#Partially from Odoo's dockerfile
+
 FROM debian:stretch
 MAINTAINER FlectraHQ <flectra@flectrahq.com>
 
@@ -33,7 +35,7 @@ RUN set -x; \
         && apt-get -y install -f --no-install-recommends \
         && rm -rf /var/lib/apt/lists/* flectra_1.0alpha.latest_all.deb
 
-# Copy entrypoint script and Odoo configuration file
+# Copy entrypoint script and Flectra configuration file
 RUN pip3 install num2words
 COPY ./entrypoint.sh /
 COPY ./flectra.conf /etc/flectra/
@@ -44,11 +46,11 @@ RUN mkdir -p /mnt/extra-addons \
         && chown -R flectra /mnt/extra-addons
 VOLUME ["/var/lib/flectra", "/mnt/extra-addons"]
 
-# Expose Odoo services
-EXPOSE 7073 8071
+# Expose Flectra services
+EXPOSE 7073 7072
 
 # Set the default config file
-ENV ODOO_RC /etc/flectra/flectra.conf
+ENV FLECTRA_RC /etc/flectra/flectra.conf
 
 # Set default user when running the container
 USER flectra
